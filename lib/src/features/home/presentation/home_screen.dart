@@ -8,7 +8,7 @@ import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
 import 'package:full_scale_shop_app/src/features/home/presentation/on_sale_widget.dart';
 import 'package:full_scale_shop_app/src/features/product/application/product_provider.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
-import 'package:full_scale_shop_app/src/routing/app_router.gr.dart';
+import 'package:full_scale_shop_app/src/route/app_router.gr.dart';
 import 'package:gap/gap.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,6 +25,7 @@ class HomeScreen extends ConsumerWidget {
     final color =
         ref.watch(themeNotifierProvider) ? Colors.white : Colors.black;
     Size size = Utils(context).screenSize;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(

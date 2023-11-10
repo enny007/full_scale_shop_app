@@ -11,7 +11,7 @@ import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
 import 'package:full_scale_shop_app/src/features/auth/application/auth_controller.dart';
 import 'package:full_scale_shop_app/src/features/auth/presentation/google_button.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
-import 'package:full_scale_shop_app/src/routing/app_router.gr.dart';
+import 'package:full_scale_shop_app/src/route/app_router.gr.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -38,7 +38,7 @@ class LoginScreen extends HookConsumerWidget {
       ref.read(authControllerProvider.notifier).signUpWithEmailAndPassword(
             email: emailTextController.text.toLowerCase().trim(),
             password: passwordController.text.trim(),
-            context: context,
+            ref: ref,
           );
       // emailTextController.clear();
       // passwordController.clear();

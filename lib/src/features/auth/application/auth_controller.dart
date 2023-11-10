@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:full_scale_shop_app/src/core/shared/provider.dart';
 import 'package:full_scale_shop_app/src/core/widgets/dialog_extensions.dart';
 import 'package:full_scale_shop_app/src/features/auth/repository/auth_repository.dart';
-import 'package:full_scale_shop_app/src/routing/app_router.gr.dart';
+import 'package:full_scale_shop_app/src/route/app_router.gr.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthController extends StateNotifier<bool> {
@@ -40,6 +40,7 @@ class AuthController extends StateNotifier<bool> {
       ),
       (r) {
         showSnackBar(context, 'Registration Successful!');
+
         Future.delayed(const Duration(seconds: 1), () {
           return context.router.push(
             const AppScaffoldRoute(),
@@ -52,7 +53,7 @@ class AuthController extends StateNotifier<bool> {
   void signUpWithEmailAndPassword({
     required String email,
     required String password,
-    required BuildContext context,
+    required WidgetRef ref,
   }) async {
     state = true;
     final res = await _authRepository.signUpWithEmailAndPassword(
@@ -61,10 +62,13 @@ class AuthController extends StateNotifier<bool> {
     );
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) => showSnackBar(ref.context, l.message),
       (r) {
-        showSnackBar(context, 'Successfully Logged in');
-        context.router.push(
+        showSnackBar(ref.context, 'Successfully Logged in');
+        // _ref.watch(productControllerProvider).fetchProducts(
+        //       ref: ref,
+        //     );
+        ref.context.router.push(
           const AppScaffoldRoute(),
         );
       },

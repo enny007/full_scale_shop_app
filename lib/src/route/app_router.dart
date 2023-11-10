@@ -25,6 +25,11 @@ class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
+          initial: true,
+          path: '/splashPage',
+          page: SplashRoute.page,
+        ),
+        AutoRoute(
           // initial: true,
           path: '/appScaffold',
           page: AppScaffoldRoute.page,
@@ -72,7 +77,6 @@ class AppRouter extends $AppRouter {
           page: ViewedRecentlyRoute.page,
         ),
         AutoRoute(
-          initial: true,
           path: '/login',
           page: LoginRoute.page,
         ),

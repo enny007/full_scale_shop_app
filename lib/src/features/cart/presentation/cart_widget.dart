@@ -12,7 +12,7 @@ import 'package:full_scale_shop_app/src/features/cart/domain/cart_model.dart';
 import 'package:full_scale_shop_app/src/features/product/application/product_provider.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
 import 'package:full_scale_shop_app/src/features/user/application/wishlist_provider.dart';
-import 'package:full_scale_shop_app/src/routing/app_router.gr.dart';
+import 'package:full_scale_shop_app/src/route/app_router.gr.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

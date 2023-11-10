@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:full_scale_shop_app/src/features/cart/application/cart_notifier.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:full_scale_shop_app/src/routing/app_router.gr.dart';
+import 'package:full_scale_shop_app/src/route/app_router.gr.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

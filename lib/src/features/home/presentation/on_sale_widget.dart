@@ -16,7 +16,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:full_scale_shop_app/src/core/widgets/price_widget.dart';
 import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
-import 'package:full_scale_shop_app/src/routing/app_router.gr.dart';
+import 'package:full_scale_shop_app/src/route/app_router.gr.dart';
 
 class OnSaleWidget extends ConsumerWidget {
   const OnSaleWidget({

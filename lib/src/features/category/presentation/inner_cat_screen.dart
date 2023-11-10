@@ -30,7 +30,7 @@ class InnerCatScreen extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).cardColor,
         title: TextWidget(
-          text: 'All Products',
+          text: category,
           color: color,
           textSize: 20,
           isTitle: true,
