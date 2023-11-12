@@ -2,9 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:full_scale_shop_app/src/core/shared/utils.dart';
+import 'package:full_scale_shop_app/src/core/widgets/empty_product.dart';
 import 'package:full_scale_shop_app/src/core/widgets/feed_items.dart';
 import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
 import 'package:full_scale_shop_app/src/features/product/application/product_provider.dart';
+import 'package:full_scale_shop_app/src/features/product/domain/products_model.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -20,6 +22,7 @@ class FeedsScreen extends HookConsumerWidget {
     final productsList = ref.watch(productsListProvider);
     final searchTextController = useTextEditingController();
     final searchTextFocusNode = useFocusNode();
+    final listProductSearch = useState<List<ProductModel>>([]);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).cardColor,
@@ -43,7 +46,8 @@ class FeedsScreen extends HookConsumerWidget {
                   focusNode: searchTextFocusNode,
                   controller: searchTextController,
                   onChanged: (value) {
-                    //
+                    listProductSearch.value =
+                        ref.read(searchQueryProvider(value));
                   },
                   cursorColor: Colors.greenAccent,
                   decoration: InputDecoration(
@@ -78,18 +82,28 @@ class FeedsScreen extends HookConsumerWidget {
                 ),
               ),
             ),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              padding: EdgeInsets.zero,
-              crossAxisSpacing: 10,
-              childAspectRatio: size.width / (size.height * 0.65),
-              children: List.generate(productsList.values.length, (index) {
-                return FeedsWidget(
-                    productModel: productsList.values.elementAt(index));
-              }),
-            ),
+            searchTextController.text.isNotEmpty &&
+                    listProductSearch.value.isEmpty
+                ? const EmptyProdWidget(
+                    text: 'No products found, please try another keyword')
+                : GridView.count(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    padding: EdgeInsets.zero,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: size.width / (size.height * 0.65),
+                    children: List.generate(
+                        searchTextController.text.isNotEmpty
+                            ? listProductSearch.value.length
+                            : productsList.length, (index) {
+                      return FeedsWidget(
+                        productModel: searchTextController.text.isNotEmpty
+                            ? listProductSearch.value[index]
+                            : productsList[index]!,
+                      );
+                    }),
+                  ),
           ],
         ),
       ),

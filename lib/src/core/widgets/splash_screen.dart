@@ -26,7 +26,7 @@ class SplashScreen extends HookConsumerWidget {
         if (user != null) {
           await ref.read(productControllerProvider).fetchProducts(
                 ref: ref,
-                productsMap: ref.watch(productsListProvider),
+                productsList: ref.watch(productsListProvider),
               );
           log(ref.watch(productsListProvider).toString());
           context.router.replace(

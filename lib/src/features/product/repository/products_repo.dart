@@ -14,23 +14,25 @@ class ProductsRepository {
 
   //Get products from the products collection
   FutureVoid fetchProducts({
-    required Map<String, ProductModel> productMap,
+    required List productList,
   }) async {
     try {
       return right(
         await _firestore.collection('products').get().then((value) {
+          productList.clear();
           for (var element in value.docs) {
-            final productId = element.get('id');
-
-            productMap[productId] = ProductModel(
-              id: productId,
-              title: element.get('title'),
-              imageUrl: element.get('imageUrl'),
-              productCategoryName: element.get('productCategoryName'),
-              price: double.parse(element.get('price')),
-              salePrice: element.get('salePrice'),
-              isOnSale: element.get('isOnSale'),
-              isPiece: element.get('isPiece'),
+            productList.insert(
+              0,
+              ProductModel(
+                id: element.get('id'),
+                title: element.get('title'),
+                imageUrl: element.get('imageUrl'),
+                productCategoryName: element.get('productCategoryName'),
+                price: double.parse(element.get('price')),
+                salePrice: element.get('salePrice'),
+                isOnSale: element.get('isOnSale'),
+                isPiece: element.get('isPiece'),
+              ),
             );
           }
         }),

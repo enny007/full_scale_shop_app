@@ -4,19 +4,19 @@ import '../domain/cart_model.dart';
 class CartNotifier extends StateNotifier<Map<String, CartModel>> {
   CartNotifier() : super({});
 
-  void addProductsToCart({
-    required String productId,
-    required int quantity,
-  }) {
-    final items = {...state};
-    final newItems = CartModel(
-      id: DateTime.now().toString(),
-      productId: productId,
-      quantity: quantity,
-    );
-    items.putIfAbsent(productId, () => newItems);
-    state = items;
-  }
+  // void addProductsToCart({
+  //   required String productId,
+  //   required int quantity,
+  // }) {
+  //   final items = {...state};
+  //   final newItems = CartModel(
+  //     id: DateTime.now().toString(),
+  //     productId: productId,
+  //     quantity: quantity,
+  //   );
+  //   items.putIfAbsent(productId, () => newItems);
+  //   state = items;
+  // }
 
   void reduceQuantityByOne(String productId) {
     final items = {...state};

@@ -7,6 +7,7 @@ import 'package:full_scale_shop_app/src/core/shared/utils.dart';
 import 'package:full_scale_shop_app/src/core/widgets/dialog_extensions.dart';
 import 'package:full_scale_shop_app/src/core/widgets/quantity_controller.dart';
 import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
+import 'package:full_scale_shop_app/src/features/cart/application/cart_controller.dart';
 import 'package:full_scale_shop_app/src/features/cart/application/cart_notifier.dart';
 import 'package:full_scale_shop_app/src/features/product/application/product_provider.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
@@ -80,10 +81,15 @@ class ViewedRecentlyWidget extends ConsumerWidget {
                       );
                       return;
                     }
-                    cartProvider.addProductsToCart(
-                      productId: product.id,
-                      quantity: 1,
-                    );
+                    ref.read(cartControllerProvider).addToCart(
+                          ref: ref,
+                          productId: product.id,
+                          quantity: 1,
+                        );
+                    // cartProvider.addProductsToCart(
+                    //   productId: product.id,
+                    //   quantity: 1,
+                    // );
                   },
             icon: isInCart ? Icons.check : IconlyBold.plus,
             color: Colors.green,

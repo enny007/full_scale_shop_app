@@ -10,6 +10,7 @@ import 'package:full_scale_shop_app/src/core/widgets/dialog_extensions.dart';
 import 'package:full_scale_shop_app/src/core/widgets/heart_btn.dart';
 import 'package:full_scale_shop_app/src/core/widgets/quantity_controller.dart';
 import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
+import 'package:full_scale_shop_app/src/features/cart/application/cart_controller.dart';
 import 'package:full_scale_shop_app/src/features/cart/application/cart_notifier.dart';
 import 'package:full_scale_shop_app/src/features/product/application/product_provider.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
@@ -276,11 +277,20 @@ class ProductsDetailScreen extends HookConsumerWidget {
                                           );
                                           return;
                                         }
-                                        cartProvider.addProductsToCart(
-                                          productId: product.id,
-                                          quantity: int.parse(
-                                              quantityController.text),
-                                        );
+                                        ref
+                                            .read(cartControllerProvider)
+                                            .addToCart(
+                                              ref: ref,
+                                              productId: product.id,
+                                              quantity: int.parse(
+                                                quantityController.text,
+                                              ),
+                                            );
+                                        // cartProvider.addProductsToCart(
+                                        //   productId: product.id,
+                                        //   quantity: int.parse(
+                                        //       quantityController.text),
+                                        // );
                                       },
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),

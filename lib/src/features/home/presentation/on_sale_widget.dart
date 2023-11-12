@@ -7,6 +7,7 @@ import 'package:full_scale_shop_app/src/core/shared/provider.dart';
 import 'package:full_scale_shop_app/src/core/shared/utils.dart';
 import 'package:full_scale_shop_app/src/core/widgets/dialog_extensions.dart';
 import 'package:full_scale_shop_app/src/core/widgets/heart_btn.dart';
+import 'package:full_scale_shop_app/src/features/cart/application/cart_controller.dart';
 import 'package:full_scale_shop_app/src/features/cart/application/cart_notifier.dart';
 import 'package:full_scale_shop_app/src/features/product/domain/products_model.dart';
 import 'package:full_scale_shop_app/src/features/user/application/wishlist_provider.dart';
@@ -76,7 +77,6 @@ class OnSaleWidget extends ConsumerWidget {
                               onTap: () {
                                 final auth = ref.watch(authProvider);
                                 final user = auth.currentUser;
-   
 
                                 if (user == null) {
                                   GlobalMethods.errorDialog(
@@ -86,10 +86,15 @@ class OnSaleWidget extends ConsumerWidget {
                                   );
                                   return;
                                 }
-                                cartProvider.addProductsToCart(
-                                  productId: productModel.id,
-                                  quantity: 1,
-                                );
+                                ref.read(cartControllerProvider).addToCart(
+                                      ref: ref,
+                                      productId: productModel.id,
+                                      quantity: 1,
+                                    );
+                                // cartProvider.addProductsToCart(
+                                //   productId: productModel.id,
+                                //   quantity: 1,
+                                // );
                               },
                               child: Icon(
                                 isInCart ? IconlyBold.bag2 : IconlyLight.bag2,

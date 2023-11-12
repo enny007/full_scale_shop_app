@@ -11,10 +11,10 @@ class ProductsController {
 
   Future<void> fetchProducts({
     required WidgetRef ref,
-    required Map<String, ProductModel> productsMap,
+    required List<ProductModel> productsList,
   }) async {
     final result = await _productRepository.fetchProducts(
-      productMap: productsMap,
+      productList: productsList,
     );
     result.fold(
       (l) => null,

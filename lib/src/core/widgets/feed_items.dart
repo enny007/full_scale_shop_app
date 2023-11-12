@@ -9,6 +9,7 @@ import 'package:full_scale_shop_app/src/core/widgets/dialog_extensions.dart';
 import 'package:full_scale_shop_app/src/core/widgets/heart_btn.dart';
 import 'package:full_scale_shop_app/src/core/widgets/price_widget.dart';
 import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
+import 'package:full_scale_shop_app/src/features/cart/application/cart_controller.dart';
 import 'package:full_scale_shop_app/src/features/cart/application/cart_notifier.dart';
 import 'package:full_scale_shop_app/src/features/product/domain/products_model.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
@@ -26,7 +27,7 @@ class FeedsWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Size size = Utils(context).screenSize;
-    final color = 
+    final color =
         ref.watch(themeNotifierProvider) ? Colors.white : Colors.black;
     final cartProvider = ref.watch(cartNotifierProvider.notifier);
     //To get whether an item is in the cart, we use the id to track this
@@ -163,10 +164,15 @@ class FeedsWidget extends HookConsumerWidget {
                             );
                             return;
                           }
-                          cartProvider.addProductsToCart(
-                            productId: productModel.id,
-                            quantity: int.parse(quantityController.text),
-                          );
+                          ref.read(cartControllerProvider).addToCart(
+                                ref: ref,
+                                productId: productModel.id,
+                                quantity: int.parse(quantityController.text),
+                              );
+                          // cartProvider.addProductsToCart(
+                          //   productId: productModel.id,
+                          //   quantity: int.parse(quantityController.text),
+                          // );
                         },
                   style: ButtonStyle(
                     backgroundColor:

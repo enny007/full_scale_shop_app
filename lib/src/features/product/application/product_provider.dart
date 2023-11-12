@@ -2,34 +2,45 @@
 import 'package:full_scale_shop_app/src/features/product/domain/products_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final productsListProvider = StateProvider<Map<String, ProductModel>>((ref) {
-  return {};
-});
-
+//To know the products on sale in the list of our productModel and put all these items in a list
 final onSaleProductsProvider = Provider<List<ProductModel>>((ref) {
-  final productsMap = ref.watch(productsListProvider);
-  return productsMap.values.where((element) => element.isOnSale).toList();
+  final productsList = ref.watch(productsListProvider);
+  return productsList.where((element) => element.isOnSale).toList();
 });
 
-final productIdProvider = Provider.family<ProductModel, String>((ref, productId) {
-  final productsMap = ref.watch(productsListProvider);
-  return productsMap[productId]!;
+// To get the id for each product detail in the product model
+final productIdProvider =
+    Provider.family<ProductModel, String>((ref, productId) {
+  final productsList = ref.watch(productsListProvider);
+  return productsList.firstWhere((element) => element.id == productId);
 });
 
-final selectedCatProvider = Provider.family<List<ProductModel>, String>((ref, categoryName) {
-  final productsMap = ref.watch(productsListProvider);
-  return productsMap.values.where(
-    (element) => element.productCategoryName.toLowerCase().contains(categoryName.toLowerCase()),
-  ).toList();
+//To get the selectedCategory by the user, we are passing an arguement because of navigation id
+final selectedCatProvider =
+    Provider.family<List<ProductModel>, String>((ref, categoryName) {
+  final productsList = ref.watch(productsListProvider);
+  return productsList
+      .where(
+        (element) => element.productCategoryName
+            .toLowerCase()
+            .contains(categoryName.toLowerCase()),
+      )
+      .toList();
+});
+final searchQueryProvider =
+    Provider.family<List<ProductModel>, String>((ref, searchText) {
+  final productsList = ref.watch(productsListProvider);
+  return productsList
+      .where(
+        (element) =>
+            element.title.toLowerCase().contains(searchText.toLowerCase()),
+      )
+      .toList();
 });
 
-final searchQueryProvider = Provider.family<List<ProductModel>, String>((ref, searchText) {
-  final productsMap = ref.watch(productsListProvider);
-  return productsMap.values.where(
-    (element) => element.title.toLowerCase().contains(searchText.toLowerCase()),
-  ).toList();
+final productsListProvider = Provider<List<ProductModel>>((ref) {
+  return [];
 });
-
 
 
 
