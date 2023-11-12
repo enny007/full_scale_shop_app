@@ -19,7 +19,7 @@ class FeedsScreen extends HookConsumerWidget {
         ref.watch(themeNotifierProvider) ? Colors.white : Colors.black;
     final productsList = ref.watch(productsListProvider);
     final searchTextController = useTextEditingController();
-    final searchTextFocusNode = useFocusNode(); 
+    final searchTextFocusNode = useFocusNode();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).cardColor,
@@ -85,10 +85,9 @@ class FeedsScreen extends HookConsumerWidget {
               padding: EdgeInsets.zero,
               crossAxisSpacing: 10,
               childAspectRatio: size.width / (size.height * 0.65),
-              children: List.generate(productsList.length, (index) {
+              children: List.generate(productsList.values.length, (index) {
                 return FeedsWidget(
-                  productModel: productsList[index],
-                );
+                    productModel: productsList.values.elementAt(index));
               }),
             ),
           ],

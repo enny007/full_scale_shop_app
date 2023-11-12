@@ -1,5 +1,4 @@
-import 'package:full_scale_shop_app/src/core/widgets/dialog_extensions.dart';
-import 'package:full_scale_shop_app/src/features/product/application/product_provider.dart';
+import 'package:full_scale_shop_app/src/features/product/domain/products_model.dart';
 import 'package:full_scale_shop_app/src/features/product/repository/products_repo.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -10,17 +9,16 @@ class ProductsController {
     required ProductsRepository productRepository,
   }) : _productRepository = productRepository;
 
-  Future<void> fetchProducts({required WidgetRef ref}) async {
-    final productsList = ref.watch(productsListProvider);
+  Future<void> fetchProducts({
+    required WidgetRef ref,
+    required Map<String, ProductModel> productsMap,
+  }) async {
     final result = await _productRepository.fetchProducts(
-      productList: productsList,
+      productMap: productsMap,
     );
     result.fold(
       (l) => null,
-      (r) => showSnackBar(
-        ref.context,
-        'Products Gotten successfully',
-      ),
+      (r) => null,
     );
   }
 }

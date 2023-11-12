@@ -20,7 +20,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final offerImages = ref.watch(imageOfferProvider);
-    final productsList = ref.watch(productsListProvider);
+   final productsMap = ref.watch(productsListProvider);
     final productsOnSale = ref.watch(onSaleProductsProvider);
     final color =
         ref.watch(themeNotifierProvider) ? Colors.white : Colors.black;
@@ -139,9 +139,9 @@ class HomeScreen extends ConsumerWidget {
               crossAxisSpacing: 10,
               childAspectRatio: size.width / (size.height * 0.65),
               children: List.generate(
-                  productsList.length < 4 ? productsList.length : 4, (index) {
+                   productsMap.values.length < 4 ? productsMap.values.length : 4, (index) {
                 return FeedsWidget(
-                  productModel: productsList[index],
+                  productModel: productsMap.values.elementAt(index),
                 );
               }),
             ),
