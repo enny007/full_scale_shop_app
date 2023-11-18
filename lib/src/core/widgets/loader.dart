@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loader extends ConsumerWidget {
-  const Loader({super.key});
-
+  const Loader({super.key, this.size});
+  final double? size;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final color =
@@ -13,6 +13,7 @@ class Loader extends ConsumerWidget {
     return Center(
       child: SpinKitFadingFour(
         color: color,
+        size: size ?? 0,
       ),
     );
   }

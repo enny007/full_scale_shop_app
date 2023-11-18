@@ -44,3 +44,5 @@ final userProvider = StateProvider<User?>((ref) {
   final auth = ref.watch(authProvider);
   return auth.currentUser;
 });
+
+

@@ -265,7 +265,7 @@ class ProductsDetailScreen extends HookConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 onTap: isInCart
                                     ? null
-                                    : () {
+                                    : () async {
                                         final auth = ref.watch(authProvider);
                                         final user = auth.currentUser;
 
@@ -277,7 +277,7 @@ class ProductsDetailScreen extends HookConsumerWidget {
                                           );
                                           return;
                                         }
-                                        ref
+                                        await ref
                                             .read(cartControllerProvider)
                                             .addToCart(
                                               ref: ref,
@@ -286,6 +286,9 @@ class ProductsDetailScreen extends HookConsumerWidget {
                                                 quantityController.text,
                                               ),
                                             );
+                                        await cartProvider.fetchCart(
+                                          ref: ref,
+                                        );
                                         // cartProvider.addProductsToCart(
                                         //   productId: product.id,
                                         //   quantity: int.parse(

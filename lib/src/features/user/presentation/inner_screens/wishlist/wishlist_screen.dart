@@ -11,7 +11,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 @RoutePage()
-class WishListScreen extends ConsumerWidget {
+class WishListScreen extends HookConsumerWidget {
   const WishListScreen({
     super.key,
   });
@@ -24,6 +24,13 @@ class WishListScreen extends ConsumerWidget {
     final wishListProvider = ref.watch(wishlistProvider);
     final wishlistItemsList =
         wishListProvider.values.toList().reversed.toList();
+    // useEffect(() {
+    //   return () async {
+    //     return ref.read(wishlistProvider.notifier).fetchWishList(
+    //           ref: ref,
+    //         );
+    //   };
+    // });
     return wishlistItemsList.isEmpty
         ? const EmptyScreen(
             title: 'Your Wishlist is Empty',
@@ -50,8 +57,12 @@ class WishListScreen extends ConsumerWidget {
                       context: context,
                       title: 'Empty your wishList',
                       subtitle: 'Are you sure?',
-                      fct: () {
-                        ref.read(wishlistProvider.notifier).clearWishlist();
+                      fct: () async {
+                        await ref
+                            .read(wishlistProvider.notifier)
+                            .clearOnlineWishList(
+                              ref: ref,
+                            );
                       },
                     );
                   },

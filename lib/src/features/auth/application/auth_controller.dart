@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:full_scale_shop_app/src/core/shared/provider.dart';
 import 'package:full_scale_shop_app/src/core/widgets/dialog_extensions.dart';
 import 'package:full_scale_shop_app/src/features/auth/repository/auth_repository.dart';
+import 'package:full_scale_shop_app/src/features/cart/application/cart_notifier.dart';
+import 'package:full_scale_shop_app/src/features/product/application/product_provider.dart';
+import 'package:full_scale_shop_app/src/features/product/application/products_controller.dart';
+import 'package:full_scale_shop_app/src/features/user/application/wishlist_provider.dart';
 import 'package:full_scale_shop_app/src/route/app_router.gr.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -63,11 +67,18 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     res.fold(
       (l) => showSnackBar(ref.context, l.message),
-      (r) {
+      (r) async {
         showSnackBar(ref.context, 'Successfully Logged in');
-        // _ref.watch(productControllerProvider).fetchProducts(
-        //       ref: ref,
-        //     );
+        await ref.read(productControllerProvider).fetchProducts(
+              ref: ref,
+              productsList: ref.read(productsListProvider),
+            );
+        await ref.read(cartNotifierProvider.notifier).fetchCart(
+              ref: ref,
+            );
+        await ref.read(wishlistProvider.notifier).fetchWishList(
+              ref: ref,
+            );
         ref.context.router.push(
           const AppScaffoldRoute(),
         );

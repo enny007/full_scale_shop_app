@@ -32,7 +32,7 @@ class LoginScreen extends HookConsumerWidget {
     final focusNode = useFocusNode();
     final formKey = GlobalKey<FormState>();
 
-    void _submitFormOnLogin() {
+    void _submitFormOnLogin() async {
       formKey.currentState!.validate();
       FocusScope.of(context).unfocus();
       ref.read(authControllerProvider.notifier).signUpWithEmailAndPassword(
@@ -40,6 +40,7 @@ class LoginScreen extends HookConsumerWidget {
             password: passwordController.text.trim(),
             ref: ref,
           );
+
       // emailTextController.clear();
       // passwordController.clear();
     }
@@ -200,39 +201,32 @@ class LoginScreen extends HookConsumerWidget {
                   const Gap(10),
                   const GoogleButton(),
                   const Gap(10),
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: Divider(
-                          color: Colors.white,
-                          thickness: 2,
-                        ),
-                      ),
-                      const Gap(5),
-                      TextWidget(
-                        text: 'OR',
-                        color: color,
-                        textSize: 18,
-                      ),
-                      const Gap(5),
-                      const Expanded(
-                        child: Divider(
-                          color: Colors.white,
-                          thickness: 2,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Gap(10),
-                  AuthButton(
-                    label: 'Continue as a guest',
-                    fct: () {
-                      context.router.push(
-                        const AppScaffoldRoute(),
-                      );
-                    },
-                    primary: Colors.black,
-                  ),
+
+                  //     TextWidget(
+                  //       text: 'OR',
+                  //       color: color,
+                  //       textSize: 18,
+                  //     ),
+                  //     const Gap(5),
+                  //     const Expanded(
+                  //       child: Divider(
+                  //         color: Colors.white,
+                  //         thickness: 2,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // const Gap(10),
+                  // AuthButton(
+                  //   label: 'Continue as a guest',
+                  //   fct: () {
+                  //     ref.read(isGuestProvider.notifier).state = true;
+                  //     context.router.push(
+                  //       const SplashRoute(),
+                  //     );
+                  //   },
+                  //   primary: Colors.black,
+                  // ),
                   const Gap(10),
                   RichText(
                     text: TextSpan(
@@ -264,7 +258,7 @@ class LoginScreen extends HookConsumerWidget {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

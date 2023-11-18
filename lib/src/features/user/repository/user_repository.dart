@@ -36,6 +36,8 @@ class UserRepository {
       );
     }
   }
+
+ 
 }
 
 final userRepoProvider = Provider<UserRepository>((ref) {

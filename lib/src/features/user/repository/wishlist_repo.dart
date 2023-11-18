@@ -3,33 +3,29 @@ import 'package:fpdart/fpdart.dart';
 import 'package:full_scale_shop_app/src/core/shared/failure.dart';
 import 'package:full_scale_shop_app/src/core/shared/provider.dart';
 import 'package:full_scale_shop_app/src/core/shared/typedef.dart';
-import 'package:full_scale_shop_app/src/features/cart/domain/cart_model.dart';
+import 'package:full_scale_shop_app/src/features/user/domain/inner_screen_models/wishlist_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
-class CartRepository {
+class WishListRepository {
   final FirebaseFirestore _firestore;
-  CartRepository({
+  WishListRepository({
     required FirebaseFirestore firestore,
   }) : _firestore = firestore;
 
-
-  //To add an entity to the cart in firebase
-  FutureVoid addToCart({
+  FutureVoid addToWishList({
     required String productId,
-    required int quantity,
     required WidgetRef ref,
   }) async {
     final auth = ref.watch(authProvider);
     final user = auth.currentUser;
-    final cartId = const Uuid().v4();
+    final wishListId = const Uuid().v4();
     try {
       return right(await _firestore.collection('users').doc(user!.uid).update({
-        'userCart': FieldValue.arrayUnion([
+        'userWish': FieldValue.arrayUnion([
           {
-            'cartId': cartId,
+            'wishListId': wishListId,
             'productId': productId,
-            'quantity': quantity,
           }
         ])
       }));
@@ -43,10 +39,10 @@ class CartRepository {
       );
     }
   }
-  // To get the entity and formulate our ui
-  FutureVoid fetchToCart({
+
+  FutureVoid fetchToWishList({
     required WidgetRef ref,
-    required Map<String, CartModel> cartItems,
+    required Map<String, WishListModel> wishItems,
   }) async {
     final auth = ref.watch(authProvider);
     final user = auth.currentUser;
@@ -54,15 +50,14 @@ class CartRepository {
       return right(
         await _firestore.collection('users').doc(user!.uid).get().then(
           (value) {
-            for (var cartItemData in value.get('userCart')) {
+            for (var cartItemData in value.get('userWish')) {
               String productId = cartItemData['productId'];
-              cartItems.putIfAbsent(
+              wishItems.putIfAbsent(
                 productId,
                 () {
-                  return CartModel(
-                    id: cartItemData['cartId'],
+                  return WishListModel(
+                    id: cartItemData['wishListId'],
                     productId: productId,
-                    quantity: cartItemData['quantity'],
                   );
                 },
               );
@@ -81,21 +76,19 @@ class CartRepository {
     }
   }
 
-  FutureVoid removeFromCart(
-      {required String productId,
-      required int quantity,
-      required WidgetRef ref,
-      required String cartId}) async {
+  FutureVoid removeFromWishList({
+    required String productId,
+    required WidgetRef ref,
+    required String wishListId,
+  }) async {
     final auth = ref.watch(authProvider);
     final user = auth.currentUser;
-    // final cartId = const Uuid().v4();
     try {
       return right(await _firestore.collection('users').doc(user!.uid).update({
-        'userCart': FieldValue.arrayRemove([
+        'userWish': FieldValue.arrayRemove([
           {
-            'cartId': cartId,
+            'wishListId': wishListId,
             'productId': productId,
-            'quantity': quantity,
           }
         ])
       }));
@@ -110,7 +103,7 @@ class CartRepository {
     }
   }
 
-  FutureVoid clearOnlineCart({
+  FutureVoid clearOnlineWishList({
     required WidgetRef ref,
   }) async {
     final auth = ref.watch(authProvider);
@@ -118,7 +111,7 @@ class CartRepository {
     // final cartId = const Uuid().v4();
     try {
       return right(await _firestore.collection('users').doc(user!.uid).update({
-        'userCart': [],
+        'userWish': [],
       }));
     } on FirebaseException catch (e) {
       throw e.message!;
@@ -132,8 +125,8 @@ class CartRepository {
   }
 }
 
-final cartRepoProvider = Provider<CartRepository>((ref) {
-  return CartRepository(
-    firestore: ref.read(fireStoreProvider),
+final wishListRepoProvider = Provider<WishListRepository>((ref) {
+  return WishListRepository(
+    firestore: ref.watch(fireStoreProvider),
   );
 });

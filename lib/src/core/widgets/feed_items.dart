@@ -153,7 +153,7 @@ class FeedsWidget extends HookConsumerWidget {
                   //to disable this button from pressing if an item is in cart
                   onPressed: isInCart
                       ? null
-                      : () {
+                      : () async {
                           final auth = ref.watch(authProvider);
                           final user = auth.currentUser;
 
@@ -164,11 +164,14 @@ class FeedsWidget extends HookConsumerWidget {
                             );
                             return;
                           }
-                          ref.read(cartControllerProvider).addToCart(
+                          await ref.read(cartControllerProvider).addToCart(
                                 ref: ref,
                                 productId: productModel.id,
                                 quantity: int.parse(quantityController.text),
                               );
+                          await cartProvider.fetchCart(
+                            ref: ref,
+                          );
                           // cartProvider.addProductsToCart(
                           //   productId: productModel.id,
                           //   quantity: int.parse(quantityController.text),

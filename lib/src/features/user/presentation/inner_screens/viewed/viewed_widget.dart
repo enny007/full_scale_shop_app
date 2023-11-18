@@ -70,7 +70,7 @@ class ViewedRecentlyWidget extends ConsumerWidget {
           QuantityController(
             fct: isInCart
                 ? null
-                : () {
+                : () async {
                     final auth = ref.watch(authProvider);
                     final user = auth.currentUser;
 
@@ -81,11 +81,14 @@ class ViewedRecentlyWidget extends ConsumerWidget {
                       );
                       return;
                     }
-                    ref.read(cartControllerProvider).addToCart(
+                    await ref.read(cartControllerProvider).addToCart(
                           ref: ref,
                           productId: product.id,
                           quantity: 1,
                         );
+                    await cartProvider.fetchCart(
+                      ref: ref,
+                    );
                     // cartProvider.addProductsToCart(
                     //   productId: product.id,
                     //   quantity: 1,

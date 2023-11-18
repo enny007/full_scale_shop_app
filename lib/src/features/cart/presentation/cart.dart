@@ -47,8 +47,12 @@ class CartScreen extends ConsumerWidget {
                       context: context,
                       title: 'Empty your cart',
                       subtitle: 'Are you Sure?',
-                      fct: () {
-                        ref.read(cartNotifierProvider.notifier).clearCart();
+                      fct: () async {
+                        await ref
+                            .read(cartNotifierProvider.notifier)
+                            .clearOnlineCart(
+                              ref: ref,
+                            );
                       },
                     );
                   },

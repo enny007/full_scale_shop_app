@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +76,7 @@ class OnSaleWidget extends ConsumerWidget {
                         Row(
                           children: [
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 final auth = ref.watch(authProvider);
                                 final user = auth.currentUser;
 
@@ -86,11 +88,17 @@ class OnSaleWidget extends ConsumerWidget {
                                   );
                                   return;
                                 }
-                                ref.read(cartControllerProvider).addToCart(
+                                await ref
+                                    .read(cartControllerProvider)
+                                    .addToCart(
                                       ref: ref,
                                       productId: productModel.id,
                                       quantity: 1,
                                     );
+                                log('productID: ${productModel.id}');
+                                await cartProvider.fetchCart(
+                                  ref: ref,
+                                );
                                 // cartProvider.addProductsToCart(
                                 //   productId: productModel.id,
                                 //   quantity: 1,

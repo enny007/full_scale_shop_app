@@ -98,7 +98,7 @@ class UserScreen extends HookConsumerWidget {
                     ),
                     children: [
                       TextSpan(
-                          text: name.value ?? 'user',
+                          text: name.value ?? 'Guest',
                           style: TextStyle(
                             color: color,
                             fontSize: 25,
