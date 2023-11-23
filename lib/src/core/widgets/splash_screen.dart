@@ -44,7 +44,6 @@ class SplashScreen extends HookConsumerWidget {
                 ref: ref,
                 orderList: ref.read(ordersListProvider),
               );
-          log(ref.read(ordersListProvider).toString());
           context.router.replace(
             const AppScaffoldRoute(),
           );

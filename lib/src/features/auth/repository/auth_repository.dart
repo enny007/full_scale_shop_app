@@ -89,8 +89,18 @@ class AuthRepository {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-
       final userCredential = await _auth.signInWithCredential(credentials);
+      if (userCredential.additionalUserInfo!.isNewUser) {
+        await _firestore.collection('users').doc(userCredential.user!.uid).set({
+          'id': userCredential.user!.uid,
+          'name': userCredential.user!.displayName,
+          'email': userCredential.user!.email,
+          'shipping-address': '',
+          'userWish': [],
+          'userCart': [],
+          'createdAt': Timestamp.now(),
+        });
+      }
       return right(userCredential.user);
     } on FirebaseException catch (e) {
       return left(

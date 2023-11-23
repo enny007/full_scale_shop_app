@@ -107,7 +107,7 @@ class AuthController extends StateNotifier<bool> {
       (r) {
         // showSnackBar(context, 'Successfully Logged in');
         context.router.push(
-          const AppScaffoldRoute(),
+          const SplashRoute(),
         );
       },
     );
