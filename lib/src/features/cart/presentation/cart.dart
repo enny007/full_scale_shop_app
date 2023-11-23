@@ -52,7 +52,7 @@ class CartScreen extends ConsumerWidget {
                             .read(cartNotifierProvider.notifier)
                             .clearOnlineCart(
                               ref: ref,
-                            );
+                            );  
                       },
                     );
                   },

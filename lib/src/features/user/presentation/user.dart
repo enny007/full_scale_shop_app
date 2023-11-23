@@ -9,8 +9,10 @@ import 'package:full_scale_shop_app/src/core/shared/provider.dart';
 import 'package:full_scale_shop_app/src/core/widgets/dialog_extensions.dart';
 import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
 import 'package:full_scale_shop_app/src/features/auth/application/auth_controller.dart';
+import 'package:full_scale_shop_app/src/features/cart/application/cart_notifier.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
 import 'package:full_scale_shop_app/src/features/user/application/user_controller.dart';
+import 'package:full_scale_shop_app/src/features/user/application/wishlist_provider.dart';
 import 'package:full_scale_shop_app/src/features/user/presentation/list_tiles.dart';
 import 'package:full_scale_shop_app/src/route/app_router.gr.dart';
 import 'package:gap/gap.dart';
@@ -41,7 +43,6 @@ class UserScreen extends HookConsumerWidget {
       });
     } else {
       // Handle the case where user is null, for example, show an error message or perform some other action.
-      
     }
 
     Future<void> showAddressDialog({
@@ -204,6 +205,8 @@ class UserScreen extends HookConsumerWidget {
                       subtitle: 'Do you want to Sign out',
                       fct: () {
                         ref.read(authControllerProvider.notifier).signOut();
+                        ref.read(wishlistProvider.notifier).clearWishlist();
+                        ref.read(cartNotifierProvider.notifier).clearCart();
                         context.router.replaceAll([
                           const LoginRoute(),
                         ]);

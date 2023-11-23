@@ -106,11 +106,11 @@ class CartNotifier extends StateNotifier<Map<String, CartModel>> {
     );
   }
 
-  // void clearCart() {
-  //   final items = {...state};
-  //   items.clear();
-  //   state = items;
-  // }
+  void clearCart() {
+    final items = {...state};
+    items.clear();
+    state = items;
+  }
 }
 
 final cartNotifierProvider =

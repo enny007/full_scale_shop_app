@@ -32,6 +32,8 @@ class AuthRepository {
         email: email,
         password: password,
       );
+      userCredentials.user!.updateDisplayName(fullname);
+      userCredentials.user!.reload();
       //create user instance in firestore
       await _firestore.collection('users').doc(userCredentials.user!.uid).set({
         'id': userCredentials.user!.uid,
@@ -129,7 +131,7 @@ class AuthRepository {
   }
 
   //Get user data from documentsnapshot
- Stream<DocumentSnapshot<Map<String, dynamic>>> getUserData(String uid) {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserData(String uid) {
     final snapshot = _firestore.collection('users').doc(uid).snapshots();
     return snapshot;
   }

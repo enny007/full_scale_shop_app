@@ -4,6 +4,7 @@ import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
 import 'package:full_scale_shop_app/src/features/cart/application/cart_notifier.dart';
 import 'package:full_scale_shop_app/src/features/product/application/product_provider.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
+import 'package:full_scale_shop_app/src/features/user/application/order_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CheckOut extends HookConsumerWidget {
@@ -16,7 +17,7 @@ class CheckOut extends HookConsumerWidget {
     Size size = Utils(context).screenSize;
     final cartProvider = ref.watch(cartNotifierProvider);
     double total = 0.0;
-
+    final orderProvider = ref.read(orderControllerProvider);
     cartProvider.forEach((key, value) {
       final product = ref.watch(productIdProvider(value.productId));
       total += (product.isOnSale ? product.salePrice : product.price) *
@@ -38,7 +39,21 @@ class CheckOut extends HookConsumerWidget {
               borderRadius: BorderRadius.circular(10),
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
-                onTap: () {},
+                onTap: () async {
+                  orderProvider.setOrder(
+                    ref: ref,
+                    total: total,
+                  );
+                  //When the order is about to be successful the cart should be cleared
+                  await ref.read(cartNotifierProvider.notifier).clearOnlineCart(
+                        ref: ref,
+                      );
+                  ref.read(cartNotifierProvider.notifier).clearCart();
+                 await orderProvider.fetchOrders(
+                    ref: ref,
+                    orderList: ref.read(ordersListProvider),
+                  );
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextWidget(

@@ -24,13 +24,7 @@ class WishListScreen extends HookConsumerWidget {
     final wishListProvider = ref.watch(wishlistProvider);
     final wishlistItemsList =
         wishListProvider.values.toList().reversed.toList();
-    // useEffect(() {
-    //   return () async {
-    //     return ref.read(wishlistProvider.notifier).fetchWishList(
-    //           ref: ref,
-    //         );
-    //   };
-    // });
+  
     return wishlistItemsList.isEmpty
         ? const EmptyScreen(
             title: 'Your Wishlist is Empty',

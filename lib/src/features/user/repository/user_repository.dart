@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:full_scale_shop_app/src/core/shared/failure.dart';
 import 'package:full_scale_shop_app/src/core/shared/provider.dart';
@@ -8,13 +7,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class UserRepository {
   final FirebaseFirestore _firestore;
-  final FirebaseAuth _auth;
 
   UserRepository({
     required FirebaseFirestore firestore,
-    required FirebaseAuth auth,
-  })  : _auth = auth,
-        _firestore = firestore;
+  }) : _firestore = firestore;
 
   FutureVoid updateShippingAddress(
       {required String uid, required String address}) async {
@@ -36,13 +32,10 @@ class UserRepository {
       );
     }
   }
-
- 
 }
 
 final userRepoProvider = Provider<UserRepository>((ref) {
   return UserRepository(
     firestore: ref.watch(fireStoreProvider),
-    auth: ref.watch(authProvider),
   );
 });

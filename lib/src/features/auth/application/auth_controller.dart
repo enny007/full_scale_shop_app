@@ -27,6 +27,7 @@ class AuthController extends StateNotifier<bool> {
     required String shippingAddress,
     required String fullName,
     required BuildContext context,
+    required WidgetRef ref,
   }) async {
     state = true;
     final res = await _authRepository.createUserWithEmailAndPassword(
@@ -44,8 +45,17 @@ class AuthController extends StateNotifier<bool> {
       ),
       (r) {
         showSnackBar(context, 'Registration Successful!');
-
-        Future.delayed(const Duration(seconds: 1), () {
+        Future.delayed(const Duration(seconds: 1), () async {
+          await ref.read(productControllerProvider).fetchProducts(
+                ref: ref,
+                productsList: ref.read(productsListProvider),
+              );
+          await ref.read(cartNotifierProvider.notifier).fetchCart(
+                ref: ref,
+              );
+          await ref.read(wishlistProvider.notifier).fetchWishList(
+                ref: ref,
+              );
           return context.router.push(
             const AppScaffoldRoute(),
           );

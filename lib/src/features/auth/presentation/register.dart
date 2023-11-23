@@ -47,6 +47,7 @@ class RegisterScreen extends HookConsumerWidget {
             context: context,
             shippingAddress: addressController.text,
             fullName: fullNameController.text,
+            ref: ref,
           );
       fullNameController.clear();
       emailController.clear();

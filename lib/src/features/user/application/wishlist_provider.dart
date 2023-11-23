@@ -118,11 +118,11 @@ class WishListProvider extends StateNotifier<Map<String, WishListModel>> {
     );
   }
 
-  // void clearWishlist() {
-  //   final items = {...state};
-  //   items.clear();
-  //   state = items;
-  // }
+  void clearWishlist() {
+    final items = {...state};
+    items.clear();
+    state = items;
+  }
 }
 
 final wishlistProvider =

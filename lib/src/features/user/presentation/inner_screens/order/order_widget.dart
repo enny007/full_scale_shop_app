@@ -1,43 +1,55 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:full_scale_shop_app/src/core/shared/utils.dart';
 import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
+import 'package:full_scale_shop_app/src/features/product/application/product_provider.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
+import 'package:full_scale_shop_app/src/features/user/domain/inner_screen_models/order_model.dart';
 import 'package:full_scale_shop_app/src/route/app_router.gr.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class OrderWidget extends ConsumerWidget {
+class OrderWidget extends HookConsumerWidget {
   const OrderWidget({
     super.key,
+    required this.orderModel,
   });
-
+  final OrderModel orderModel;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final color =
         ref.watch(themeNotifierProvider) ? Colors.white : Colors.black;
-    // final productModel = ref.watch(productModelProvider);
+    final product = ref.watch(productIdProvider(orderModel.productId));
     Size size = Utils(context).screenSize;
+    final orderDateTime = useState('');
+    useEffect(() {
+      final orderDate = orderModel.orderDate.toDate();
+      orderDateTime.value =
+          '${orderDate.day}/${orderDate.month}/${orderDate.year}';
+      return () {};
+    });
     return ListTile(
-      subtitle: const Text('Paid: \$12.8'),
+      subtitle:
+          Text('Paid: \$${double.parse(orderModel.price).toStringAsFixed(2)}'),
       onTap: () {
-        context.router.push(
-          ProductsDetailRoute(productId: ''),
-        );
-        //TODO:
+        // context.router.push(
+        //   ProductsDetailRoute(productId: ''),
+        // );
+       
       },
       leading: FancyShimmerImage(
         width: size.width * 0.2,
-        imageUrl: 'https://i.ibb.co/F0s3FHQ/Apricots.png',
+        imageUrl: product.imageUrl,
         boxFit: BoxFit.fill,
       ),
       title: TextWidget(
-        text: 'Title x12',
+        text: '${product.title} x ${orderModel.quantity}',
         color: color,
         textSize: 18,
       ),
       trailing: TextWidget(
-        text: '03/08/2022',
+        text: orderDateTime.value,
         color: color,
         textSize: 18,
       ),
