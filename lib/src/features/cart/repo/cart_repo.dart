@@ -130,6 +130,8 @@ class CartRepository {
       );
     }
   }
+
+  
 }
 
 final cartRepoProvider = Provider<CartRepository>((ref) {

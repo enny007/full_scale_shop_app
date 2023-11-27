@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:full_scale_shop_app/src/core/shared/provider.dart';
 import 'package:full_scale_shop_app/src/core/shared/utils.dart';
 import 'package:full_scale_shop_app/src/core/widgets/text_widget.dart';
+import 'package:full_scale_shop_app/src/features/cart/application/cart_controller.dart';
 import 'package:full_scale_shop_app/src/features/cart/application/cart_notifier.dart';
 import 'package:full_scale_shop_app/src/features/product/application/product_provider.dart';
 import 'package:full_scale_shop_app/src/features/theme/notifier_controller/theme_notifier.dart';
@@ -17,6 +19,8 @@ class CheckOut extends HookConsumerWidget {
     Size size = Utils(context).screenSize;
     final cartProvider = ref.watch(cartNotifierProvider);
     double total = 0.0;
+    final auth = ref.watch(authProvider);
+    final user = auth.currentUser;
     final orderProvider = ref.read(orderControllerProvider);
     cartProvider.forEach((key, value) {
       final product = ref.watch(productIdProvider(value.productId));
@@ -40,6 +44,11 @@ class CheckOut extends HookConsumerWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
                 onTap: () async {
+                  await ref.read(cartControllerProvider).initpayment(
+                        email: user!.email ?? '',
+                        amount: total,
+                        ref: ref,
+                      );
                   orderProvider.setOrder(
                     ref: ref,
                     total: total,
@@ -49,7 +58,7 @@ class CheckOut extends HookConsumerWidget {
                         ref: ref,
                       );
                   ref.read(cartNotifierProvider.notifier).clearCart();
-                 await orderProvider.fetchOrders(
+                  await orderProvider.fetchOrders(
                     ref: ref,
                     orderList: ref.read(ordersListProvider),
                   );
